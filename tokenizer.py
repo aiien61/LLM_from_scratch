@@ -1,3 +1,5 @@
+"""Python3.10
+"""
 from typing import List, Dict
 from icecream import ic
 import re
@@ -35,10 +37,7 @@ ic(vocab_size)
 
 # 建立詞彙表
 vocab: Dict[str, int] = dict(zip(all_words, range(vocab_size)))
-for i, item in enumerate(vocab.items()):
-    print(item)
-    if i >= 50:
-        break
+print([word for word in list(vocab.values())[:50]])
 
 class SimpleTokenizerV1:
     def __init__(self, vocab: Dict[str, int]):
@@ -59,8 +58,8 @@ class SimpleTokenizerV1:
 tokenizer: SimpleTokenizerV1 = SimpleTokenizerV1(vocab)
 text: str = """"It's the last he painted, you know," Mrs. Gisburn said with pardonable pride."""
 ids: List[int] = tokenizer.encode(text)
-ic(ids)
-ic(tokenizer.decode(ids))
+print(ids)
+print(tokenizer.decode(ids))
 
 
 try:
@@ -68,3 +67,46 @@ try:
     ic(tokenizer.encode(text))
 except KeyError as e:
     ic(e)
+
+### 添加特殊 token
+# Add special tokens like "<|unk|>" to the vocab to represent unknown words
+# Add token "<|endoftext|>" to denote the end of a text
+all_tokens = sorted(list(set(preprocessed)))
+all_tokens.extend(["<|endoftext|>", "<|unk|>"])
+
+vocab = {token: integer for integer, token in enumerate(all_tokens)}
+print(len(vocab.items()))
+
+for item in list(vocab.items())[-5:]:
+    print(item)
+
+class SimpleTokenizerV2:
+    def __init__(self, vocab: Dict[str, int]):
+        self.str_to_int: Dict[str, int] = vocab
+        self.int_to_str: Dict[int, str] = {i: s for s, i in vocab.items()}
+    
+    def encode(self, text: str) -> List[int]:
+        preprocessed: List[str] = re.split(r'([,.?_!"()\']|--|\s)', text)
+        preprocessed = [item.strip() for item in preprocessed if item.strip()]
+        # 將未知的字詞替換為 <|unk> token
+        preprocessed = [item if item in self.str_to_int else "<|unk|>" for item in preprocessed]
+
+        ids: List[int] = [self.str_to_int[s] for s in preprocessed]
+        return ids
+    
+    def decode(self, ids: List[int]) -> List[str]:
+        text: str = " ".join([self.int_to_str[i] for i in ids])
+        
+        # 取代指定標點符號前的空格
+        text = re.sub(r'\s+([,.?!"()\'])', r'\1', text)
+
+        return text
+
+text1: str = "Hello, do you like tea?"
+text2: str = "In the sunlit terraces of the palace."
+text: str = " <|endoftext|> ".join((text1, text2))
+print(text)
+
+tokenizer = SimpleTokenizerV2(vocab)
+print(tokenizer.encode(text))
+print(tokenizer.decode(tokenizer.encode(text)))
