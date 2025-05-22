@@ -1,4 +1,5 @@
 from icecream import ic
+from typing import List
 import numpy as np
 
 # TODO: refactor to classes - repeat and sum
