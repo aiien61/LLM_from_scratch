@@ -3,61 +3,6 @@ from rich import print
 from icecream import ic
 from typing import List
 
-x: np.ndarray = np.array([1, 2, 3])
-ic(x)
-
-ic(x.__class__)  # numpy.ndarray
-
-ic(x.shape)  # (3,)
-
-ic(x.ndim)  # 1
-
-W: np.ndarray = np.array([[1, 2, 3], [4, 5, 6]])
-ic(W.__class__)  # numpy.ndarray
-
-ic(W.shape)  # (2, 3)
-
-ic(W.ndim)  # 2
-
-Q: np.ndarray = np.array(
-    [
-        [[1, 2, 3], [4, 5, 6]], 
-        [[7, 8, 9], [10, 11, 12]]
-    ]
-)
-ic(Q.__class__)  # numpy.ndarray
-
-ic(Q.shape)  # (2, 2, 3)
-
-ic(Q.ndim)  # 3
-
-# element-wise operations
-W: np.ndarray = np.array([[1, 2, 3], [4, 5, 6]])
-X: np.ndarray = np.array([[0, 1, 2], [3, 4, 5]])
-ic(W + X)
-
-ic(W * X)
-
-# broadcasting
-A: np.ndarray = np.array([[1, 2], [3, 4]])
-ic(A * 10)
-
-A: np.ndarray = np.array([[1, 2], [3, 4]])
-b: np.ndarray = np.array([10, 20])
-ic(A * b)
-
-# dot-product
-a: np.ndarray = np.array([1, 2, 3])
-b: np.ndarray = np.array([4, 5, 6])
-ic(a, b)
-ic(np.dot(a, b))
-
-# matrix multiplication
-A: np.ndarray = np.array([[1, 2], [3, 4]])
-B: np.ndarray = np.array([[5, 6], [7, 8]])
-ic(a, b)
-ic(np.dot(A, B))
-
 # demo how to connect layers in a neural network
 
 # 2 neurons in the input layer
