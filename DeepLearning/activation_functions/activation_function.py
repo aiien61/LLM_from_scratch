@@ -1,0 +1,13 @@
+import numpy as np
+import matplotlib.pylab as plt
+
+def sigmoid(x):
+    return 1 / (1 + np.exp(-x))
+
+
+if __name__ == "__main__":
+    x: np.ndarray = np.arange(-5, 5, 0.1)
+    y: np.ndarray = sigmoid(x)
+    plt.plot(x, y)
+    plt.ylim(-0.1, 1.1)
+    plt.show()
